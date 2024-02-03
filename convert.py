@@ -12,6 +12,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument("input_path",type=str,help="Path to the input 360 image")
 parser.add_argument("output_path",type=str,help="Path to where the script should save the skybox. NOTE: the program will automatically add '_top.png' and such to the end of the path, so it is best to give a path like 'images/my_skybox', so that it will save the 6 images to 'images/my_skybox_toppng' and so on.")
 parser.add_argument("--brightness-scale",type=float,help="The multiplier for the brightness of the HDRI. By default, the output skybox is scaled so that the average brigthness of the HDRI is 255 in the output, since many HDRI's get very bright. Default: 1",nargs="?",default=1)
+parser.add_argument("--width",type=int,help="The width of the output skybox images. Default: 256",nargs="?",default=256)
 args=parser.parse_args()
 
 input_path=args.input_path
@@ -26,8 +27,8 @@ img=cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 # Save the average brightness for later when the final images are scaled.
 average_value=np.average(img)
 
-# Width of the output skybox images
-width=256
+# Width of the output skybox images, default 256
+width=args.width
 
 # The direction parameter is a number from 0 to 6, in order of: x+, x-, y+, y-, z+, z-
 def generate_tile(direction,width):
